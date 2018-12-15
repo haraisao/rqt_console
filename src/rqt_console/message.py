@@ -60,6 +60,7 @@ class Message(QObject):
         self.severity = None
         self.node = None
         self.__stamp = (None, None)
+        self.topics = []
         self.location = None
 
         self._stamp_compare = None
@@ -121,6 +122,7 @@ class Message(QObject):
         text = self.tr('Node: ') + self.node + '\n'
         text += self.tr('Time: ') + self.get_stamp_string() + '\n'
         text += self.tr('Severity: ') + Message.SEVERITY_LABELS[self.severity] + '\n'
+        text += self.tr('Topic: ') + self.topics[0] + '\n'
         text += '\n' + self.message + '\n'
         text += '\n' + 'Location:'
         text += '\n' + self.location + '\n\n'

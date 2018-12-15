@@ -88,19 +88,20 @@ class Console(Plugin):
         Callback for adding an incomming message to the queue.
         """
         if not self._widget._paused:
-            msg = Console.convert_rosgraph_log_message(log_msg)
+            msg = Console.convert_rosgraph_log_message(log_msg, self._topic)
             with QMutexLocker(self._mutex):
                 self._message_queue.append(msg)
 
     @staticmethod
-    def convert_rosgraph_log_message(log_msg):
+    def convert_rosgraph_log_message(log_msg, topic):
         msg = Message()
         msg.set_stamp_format('hh:mm:ss.ZZZ (yyyy-MM-dd)')
         msg.stamp = (log_msg.stamp.sec, log_msg.stamp.nanosec)
         msg.message = log_msg.msg
         msg.severity = log_msg.level
         msg.node = log_msg.name
-        msg.stamp = (log_msg.header.stamp.sec, log_msg.header.stamp.nanosec)
+        msg.topics = [topic]
+        msg.stamp = (log_msg.stamp.sec, log_msg.stamp.nanosec)
         msg.location = log_msg.file + ':' + log_msg.function + ':' + str(log_msg.line)
         return msg
 
@@ -132,7 +133,7 @@ class Console(Plugin):
             if 'rcl_interfaces/Log' in topic_types]
 
         topics.sort(key=lambda tup: tup[0])
-        dialog = ConsoleSettingsDialog(topics)
+        dialog = ConsoleSettingsDialog(topics, self._context.node)
         (topic, message_limit) = dialog.query(self._topic, self._model.get_message_limit())
         if topic != self._topic:
             self._subscribe(topic)

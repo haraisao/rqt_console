@@ -37,9 +37,8 @@ from ament_index_python.resources import get_resource
 from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QDialog
 
-# TODO(mlautman): Restore this functionality once rqt_logger_level has been ported
-# from rqt_logger_level.logger_level_widget import LoggerLevelWidget
-# from rqt_logger_level.logger_level_service_caller import LoggerLevelServiceCaller
+from rqt_logger_level.logger_level_widget import LoggerLevelWidget
+from rqt_logger_level.logger_level_service_caller import LoggerLevelServiceCaller
 
 
 class ConsoleSettingsDialog(QDialog):
@@ -48,7 +47,7 @@ class ConsoleSettingsDialog(QDialog):
     Dialog to change the subscribed topic and alter the message buffer size.
     """
 
-    def __init__(self, topics):
+    def __init__(self, topics, node):
         """
         :param topics: list of topics to allow switching, ''list of string''
         :param limit: displayed in the message buffer size spin box, ''int''
@@ -62,11 +61,11 @@ class ConsoleSettingsDialog(QDialog):
 
         loadUi(ui_file, self)
         for topic in topics:
-            self.topic_combo.addItem(topic[0] + ' (' + topic[1] + ')', topic[0])
+            self.topic_combo.addItem(topic, topic)
 
-        # self._service_caller = LoggerLevelServiceCaller()
-        # self._logger_widget = LoggerLevelWidget(self._service_caller)
-        # self.levelsLayout.addWidget(self._logger_widget)
+        self._service_caller = LoggerLevelServiceCaller(node)
+        self._logger_widget = LoggerLevelWidget(self._service_caller)
+        self.levelsLayout.addWidget(self._logger_widget)
         self.adjustSize()
 
     def query(self, topic, buffer_size):
