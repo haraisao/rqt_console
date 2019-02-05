@@ -33,7 +33,7 @@
 import os
 
 from python_qt_binding import loadUi
-from python_qt_binding.QtGui import QCursor, QIcon
+from python_qt_binding.QtGui import QCursor, QIcon, QPixmap
 from python_qt_binding.QtWidgets import (QApplication, QFileDialog, QHeaderView,
                                          QMenu, QMessageBox, QTableView, QWidget)
 from python_qt_binding.QtCore import QRegExp, Qt, qWarning
@@ -111,24 +111,25 @@ class ConsoleWidget(QWidget):
             self.table_view.horizontalHeader().setSortIndicatorShown(logical_index != 0)
         self.table_view.horizontalHeader().sortIndicatorChanged.connect(update_sort_indicator)
 
-        self.add_exclude_button.setIcon(QIcon.fromTheme('list-add'))
-        self.add_highlight_button.setIcon(QIcon.fromTheme('list-add'))
-        self.pause_button.setIcon(QIcon.fromTheme('media-playback-pause'))
+        icon_dir = os.path.join(self._rospack.get_path('rqt_gui'), 'resource', 'icons')
+        self.add_exclude_button.setIcon(QIcon.fromTheme('list-add', QIcon(QPixmap(os.path.join(icon_dir, 'list-add.png')))))
+        self.add_highlight_button.setIcon(QIcon.fromTheme('list-add', QIcon(QPixmap(os.path.join(icon_dir, 'list-add.png')))))
+        self.pause_button.setIcon(QIcon.fromTheme('media-playback-pause', QIcon(QPixmap(os.path.join(icon_dir, 'media-playback-pause.png'))))
         if not self.pause_button.icon().isNull():
             self.pause_button.setText('')
-        self.record_button.setIcon(QIcon.fromTheme('media-record'))
+        self.record_button.setIcon(QIcon.fromTheme('media-record', QIcon(QPixmap(os.path.join(icon_dir, 'media-record.png'))))
         if not self.record_button.icon().isNull():
             self.record_button.setText('')
-        self.load_button.setIcon(QIcon.fromTheme('document-open'))
+        self.load_button.setIcon(QIcon.fromTheme('document-open', QIcon(QPixmap(os.path.join(icon_dir, 'document-open.png'))))
         if not self.load_button.icon().isNull():
             self.load_button.setText('')
-        self.save_button.setIcon(QIcon.fromTheme('document-save'))
+        self.save_button.setIcon(QIcon.fromTheme('document-save', QIcon(QPixmap(os.path.join(icon_dir, 'document-save.png'))))
         if not self.save_button.icon().isNull():
             self.save_button.setText('')
-        self.clear_button.setIcon(QIcon.fromTheme('edit-clear'))
+        self.clear_button.setIcon(QIcon.fromTheme('edit-clear', QIcon(QPixmap(os.path.join(icon_dir, 'edit-clear.png'))))
         if not self.clear_button.icon().isNull():
             self.clear_button.setText('')
-        self.highlight_exclude_button.setIcon(QIcon.fromTheme('format-text-strikethrough'))
+        self.highlight_exclude_button.setIcon(QIcon.fromTheme('format-text-strikethrough', QIcon(QPixmap(os.path.join(icon_dir, 'format-text-strikethrough.png'))))
 
         self.pause_button.clicked[bool].connect(self._handle_pause_clicked)
         self.record_button.clicked[bool].connect(self._handle_record_clicked)

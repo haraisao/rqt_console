@@ -34,7 +34,7 @@ import os
 import rospkg
 
 from python_qt_binding import loadUi
-from python_qt_binding.QtGui import QIcon
+from python_qt_binding.QtGui import QIcon, QPixmap
 from python_qt_binding.QtWidgets import QWidget
 
 
@@ -56,7 +56,7 @@ class FilterWrapperWidget(QWidget):
             rp.get_path('rqt_console'), 'resource/filters', 'filter_wrapper_widget.ui')
         loadUi(ui_file, self)
         self.setObjectName('FilterWrapperWidget')
-        self.delete_button.setIcon(QIcon.fromTheme('list-remove'))
+        self.delete_button.setIcon(QIcon.fromTheme('list-remove',QIcon(QPixmap(os.path.join(rp.get_path('rqt_gui'), 'resource/icons/list-remove.png')))))
         self._widget = widget
 
         # Replace the placeholder QWidget with the passed in object

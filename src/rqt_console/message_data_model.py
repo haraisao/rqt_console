@@ -29,9 +29,10 @@
 # LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 # ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
+import rospkg
 
 from python_qt_binding.QtCore import QAbstractTableModel, QModelIndex, Qt, qWarning
-from python_qt_binding.QtGui import QBrush, QIcon
+from python_qt_binding.QtGui import QBrush, QIcon, QPixmap
 
 from .message import Message
 from .message_list import MessageList
@@ -54,9 +55,10 @@ class MessageDataModel(QAbstractTableModel):
         super(MessageDataModel, self).__init__()
         self._messages = MessageList()
         self._message_limit = 20000
-        self._info_icon = QIcon.fromTheme('dialog-information')
-        self._warning_icon = QIcon.fromTheme('dialog-warning')
-        self._error_icon = QIcon.fromTheme('dialog-error')
+        rp=rospkg.RosPack()
+        self._info_icon = QIcon.fromTheme('dialog-information', QIcon(QPixmap(os.path.join(rp.get_path('rqt_gui'), 'resource/icons/dialog-information.png'))))
+        self._warning_icon = QIcon.fromTheme('dialog-warning', QIcon(QPixmap(os.path.join(rp.get_path('rqt_gui'), 'resource/icons/dialog-warning.png'))))
+        self._error_icon = QIcon.fromTheme('dialog-error', QIcon(QPixmap(os.path.join(rp.get_path('rqt_gui'), 'resource/icons/dialog-error.png'))))
 
     # BEGIN Required implementations of QAbstractTableModel functions
 
