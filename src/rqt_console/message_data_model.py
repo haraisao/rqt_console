@@ -29,6 +29,7 @@
 # LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 # ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
+import os
 import rospkg
 
 from python_qt_binding.QtCore import QAbstractTableModel, QModelIndex, Qt, qWarning
